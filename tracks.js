@@ -6,6 +6,7 @@ const tracks = [
         audio: './tracks/А_где_тот_мальчик.mp3',
         options: ['The Weeknd', 'Dua Lipa', 'Post Malone', 'Justin Bieber'],
         correct: 0,
+        error: 'Не, ну это классика! Это знать надо!',
     },
     {
         id: 2,

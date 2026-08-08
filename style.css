@@ -1,5 +1,9 @@
 body {
     background: linear-gradient(145deg, #0b0e17 0%, #1a1f2f 100%);
+    background-image: url(./shanson.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
     min-height: 100vh;
     display: flex;
     align-items: center;
@@ -153,11 +157,6 @@ audio::-webkit-media-controls-play-button {
     color: white;
 }
 
-.footer-quiz {
-    border-top: 1px solid rgba(255, 255, 255, 0.04);
-    padding: 1.2rem 2rem 1.8rem 2rem;
-}
-
 .hint-text {
     color: #9ba6d0;
     font-size: 0.9rem;
@@ -172,10 +171,6 @@ audio::-webkit-media-controls-play-button {
 @media (max-width: 576px) {
     .quiz-card .card-header {
         padding: 1rem 1.2rem 0.5rem 1.2rem;
-    }
-
-    .footer-quiz {
-        padding: 1rem 1.2rem 1.5rem 1.2rem;
     }
 
     audio {

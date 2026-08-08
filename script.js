@@ -115,7 +115,6 @@ import tracks from './tracks.js';
         });
     }
 
-    // Обработка клика
     function handleOptionClick(e, track) {
         if (isAnswered) return;
         const btn = e.currentTarget;
@@ -141,7 +140,7 @@ import tracks from './tracks.js';
             trackTitleHint.textContent = `✅ ${track.artist} — ${track.title}`;
         } else {
             wrongCount += 1;
-            trackTitleHint.textContent = `❌ Правильно: ${track.artist} — ${track.title}`;
+            trackTitleHint.textContent = track.error;
         }
 
         isAnswered = true;
