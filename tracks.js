@@ -38,14 +38,6 @@ const tracks = [
         audio: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3',
         options: ['Billie Eilish', 'Lorde', 'Halsey', 'Ava Max'],
         correct: 0,
-    },
-    {
-        id: 6,
-        title: 'Therefore I Am',
-        artist: 'Billie Eilish',
-        audio: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3',
-        options: ['Billie Eilish', 'Lorde', 'Halsey', 'Ava Max'],
-        correct: 0,
     }
 ];
 
