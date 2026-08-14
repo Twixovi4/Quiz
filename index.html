@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Музыкальный квиз</title>
+    <title>Музыкальный квиз для Серхио</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="./style.css">
@@ -12,64 +12,85 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-lg-8 col-xl-7">
-            <div class="card quiz-card">
+            <div id="quiz" class="card quiz-card">
                 <div class="card-header d-flex justify-content-between align-items-center flex-wrap">
                 <span>
                     <i class="bi bi-music-note-beamed me-2" style="color: #f5c542;"></i>
-                    Угадай шансон
+                    Кто гений шансона?
                 </span>
-                <span class="badge-score">
+                <span class="badge-score" id="scoreHeader" style="display: none;">
                     <i class="bi bi-star-fill me-1" style="color: #f5c542;"></i>
                     <span id="scoreDisplay">0</span>
                 </span>
             </div>
 
             <div class="card-body p-4 p-md-5">
-                <div class="audio-wrapper mb-4">
-                    <div class="d-flex justify-content-between align-items-center mb-2">
-                        <span class="hint-text">
-                            <i class="bi bi-headphones me-1"></i>
-                            <span id="currentTrackNumber">1</span>
-                            /
-                            <span id="totalTracks">5</span>
-                        </span>
-                        <span class="hint-text">
-                            <i class="bi bi-clock-history me-1"></i>
-                            <span id="timerDisplay">0:25</span>
-                        </span>
+                <div id="startScreen" class="text-center pt-5">
+                    <h2 class="mb-3">Музыкальный квиз по шансону</h2>
+                    <p class="hint-text mb-4">Угадай исполнителя песни по фрагменту</p>
+                    <div class="rules-box mb-4 p-3" style="background: rgba(245, 197, 66, 0.1); border-radius: 12px; border: 1px solid rgba(245, 197, 66, 0.2);">
+                        <p class="mb-1"><i class="bi bi-clock me-2" style="color: #f5c542;"></i>15 секунд на ответ</p>
+                        <p class="mb-0"><i class="bi bi-star me-2" style="color: #f5c542;"></i>Правильный ответ +10 очков</p>
                     </div>
-                    <audio id="audioPlayer" preload="metadata">
-                        <source id="audioSource" src="" type="audio/mpeg">
-                        Ваш браузер не поддерживает аудио.
-                    </audio>
-                    <div class="progress-track mt-2">
-                        <div id="progressBar" class="my-progress-bar" style="width: 100%;"></div>
-                    </div>
-                    <div class="text-center mt-2">
-                        <span class="track-title-display" id="trackTitleHint">
-                            Прослушайте фрагмент классики
-                        </span>
-                    </div>
-                </div>
-
-                <div class="mb-4" id="optionsContainer">
-                    <div id="optionsList" class="d-grid gap-2"></div>
-                </div>
-
-                <div id="nextButtonWrapper" class="d-grid mt-3">
-                    <button id="nextTrackBtn" class="btn btn-glow">
-                        <i class="bi bi-skip-forward-fill me-2"></i>
-                        Следующий трек
+                    <button id="playBtn" class="btn btn-glow btn-lg px-5">
+                        <i class="bi bi-play-fill me-2"></i>Играть
                     </button>
+                    <div class="d-flex justify-content-end mt-3">
+                        <button id="thirdSeptember" class="option-btn2">3 Сентября</button>
+                    </div>
                 </div>
 
-                <div class="d-flex justify-content-between align-items-center mt-3 flex-wrap">
-                    <div>
-                        <i class="bi bi-check-circle-fill text-success me-1"></i>
-                        <span id="correctCount">0</span> · <i class="bi bi-x-circle-fill text-danger me-1"></i> <span id="wrongCount">0</span>
+                <div id="gameScreen" style="display: none;">
+                    <div class="audio-wrapper mb-4">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="hint-text">
+                                <i class="bi bi-headphones me-1"></i>
+                                <span id="currentTrackNumber">1</span>
+                                /
+                                <span id="totalTracks">5</span>
+                            </span>
+                            <span class="hint-text">
+                                <i class="bi bi-clock-history me-1"></i>
+                                <span id="timerDisplay">0:15</span>
+                            </span>
+                        </div>
+                        <audio id="audioPlayer" preload="metadata">
+                            <source id="audioSource" src="" type="audio/mpeg">
+                            Ваш браузер не поддерживает аудио.
+                        </audio>
+                        <div class="progress-track mt-2">
+                            <div id="progressBar" class="my-progress-bar" style="width: 100%;"></div>
+                        </div>
+                        <div class="text-center mt-2">
+                            <span class="track-title-display" id="trackTitleHint">
+                                Прослушайте фрагмент
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="mb-4" id="optionsContainer">
+                        <div id="optionsList" class="d-grid gap-2"></div>
+                    </div>
+
+                    <div id="nextButtonWrapper" class="d-grid mt-3">
+                        <button id="nextTrackBtn" class="btn btn-glow">
+                            <i class="bi bi-skip-forward-fill me-2"></i>
+                            Следующий трек
+                        </button>
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center mt-3 flex-wrap">
+                        <div>
+                            <i class="bi bi-check-circle-fill text-success me-1"></i>
+                            <span id="correctCount">0</span> · <i class="bi bi-x-circle-fill text-danger me-1"></i> <span id="wrongCount">0</span>
+                        </div>
                     </div>
                 </div>
             </div>
+        </div>
+
+        <div id="thirdSeptemberContainer">
+            <button id="thirdSeptember2" class="btn btn-glow btn-lg px-5 text-center d-none">К квизу!</button>
         </div>
     </div>
 </div>

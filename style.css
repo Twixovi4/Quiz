@@ -1,6 +1,6 @@
 body {
     background: linear-gradient(145deg, #0b0e17 0%, #1a1f2f 100%);
-    background-image: url(./shanson.jpg);
+    background-image: url(./shanson1.jpg);
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
@@ -33,6 +33,69 @@ body {
     border-radius: 1.5rem;
     padding: 1rem 1.5rem;
     border: 1px solid rgba(255, 215, 0, 0.08);
+}
+
+/* Стили для стартового экрана */
+#startScreen {
+    animation: fadeIn 0.5s ease-in;
+}
+
+#startScreen h2 {
+    color: #fff;
+    font-weight: 700;
+}
+
+.rules-box {
+    background: rgba(245, 197, 66, 0.08);
+    border: 1px solid rgba(245, 197, 66, 0.2);
+    border-radius: 16px;
+    padding: 20px;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.rules-box p {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 0.95rem;
+}
+
+/* Анимация для кнопки Play */
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+#playBtn {
+    animation: pulse 2s infinite;
+    font-size: 1.2rem;
+    padding: 15px 50px;
+}
+
+#playBtn:hover {
+    animation: none;
+    transform: scale(1.05);
+    transition: transform 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 audio {
@@ -109,6 +172,34 @@ audio::-webkit-media-controls-play-button {
     align-items: center;
     gap: 10px;
     width: 100%;
+}
+
+#thirdSeptemberContainer {
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    width: 100%;
+    padding: 0 2rem 0 2rem;
+    transform: translateX(-50%);
+    z-index: 1000;
+}
+
+#thirdSeptember2 {
+    width: 100%;
+}
+
+.option-btn2 {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 60px;
+    opacity: 0.2;
+    padding: 0.3rem;
+    font-size: 0.6rem;
+    color: #d6def5;
+    transition: 0.15s;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
 }
 
 .option-btn:hover:not(.disabled-btn) {

@@ -6,7 +6,7 @@ import tracks from './tracks.js';
     let wrongCount = 0;
     let isAnswered = false;
     let timerInterval = null;
-    let secondsLeft = 25;
+    let secondsLeft = 15;
     const totalTracks = tracks.length;
 
     // DOM
@@ -23,6 +23,28 @@ import tracks from './tracks.js';
     const correctCountSpan = document.getElementById('correctCount');
     const wrongCountSpan = document.getElementById('wrongCount');
     const trackTitleHint = document.getElementById('trackTitleHint');
+    const scoreHeader = document.getElementById('scoreHeader');
+    const startScreen = document.getElementById('startScreen');
+    const gameScreen = document.getElementById('gameScreen');
+    const playBtn = document.getElementById('playBtn');
+    const thirdSeptemberBtn = document.getElementById('thirdSeptember');
+    const thirdSeptember2Btn = document.getElementById('thirdSeptember2');
+    const quiz = document.getElementById('quiz');
+
+    thirdSeptemberBtn.addEventListener('click', showHideQuiz);
+    thirdSeptember2Btn.addEventListener('click', showHideQuiz);
+
+    function showHideQuiz() {
+        if (quiz.classList.contains('d-none')) {
+            quiz.classList.remove('d-none');
+            thirdSeptember2Btn.classList.remove('d-block');
+            thirdSeptember2Btn.classList.add('d-none');
+        } else {
+            quiz.classList.add('d-none');
+            thirdSeptember2Btn.classList.add('d-block');
+            thirdSeptember2Btn.classList.remove('d-none');
+        }
+    }
 
     function shuffleArray(arr) {
         for (let i = arr.length - 1; i > 0; i--) {
@@ -48,14 +70,14 @@ import tracks from './tracks.js';
 
     function startTimer() {
         clearTimer();
-        secondsLeft = 25;
+        secondsLeft = 15;
         timerDisplay.textContent = `0:${secondsLeft.toString().padStart(2, '0')}`;
         progressBar.style.width = '100%';
 
         timerInterval = setInterval(() => {
             secondsLeft -= 1;
             timerDisplay.textContent = `0:${secondsLeft.toString().padStart(2, '0')}`;
-            const percent = (secondsLeft / 25) * 100;
+            const percent = (secondsLeft / 15) * 100;
             progressBar.style.width = `${Math.max(0, percent)}%`;
 
             if (secondsLeft <= 0) {
@@ -72,6 +94,7 @@ import tracks from './tracks.js';
                     wrongCount += 1;
                     isAnswered = true;
                     audioPlayer.pause();
+                    updateStats();
                 }
             }
         }, 1000);
@@ -88,10 +111,10 @@ import tracks from './tracks.js';
         audioPlayer.load();
         // Автозапуск с небольшой задержкой (чтобы браузер разрешил)
         setTimeout(() => {
-            audioPlayer.play().catch(e => console.log('Автовоспроизведение заблокировано, нажмите play'));
+            audioPlayer.play().catch(e => console.log('Автовоспроизведение заблокировано'));
         }, 100);
 
-        trackTitleHint.textContent = 'Прослушайте фрагмент классики';
+        trackTitleHint.textContent = 'Прослушайте фрагмент';
         currentTrackNumber.textContent = index + 1;
         totalTracksSpan.textContent = totalTracks;
 
@@ -107,7 +130,7 @@ import tracks from './tracks.js';
         });
 
         progressBar.style.width = '100%';
-        timerDisplay.textContent = '0:25';
+        timerDisplay.textContent = '0:15';
         startTimer();
 
         document.querySelectorAll('.option-btn').forEach(b => {
@@ -140,7 +163,8 @@ import tracks from './tracks.js';
             trackTitleHint.textContent = `✅ ${track.artist} — ${track.title}`;
         } else {
             wrongCount += 1;
-            trackTitleHint.textContent = track.error;
+            if(track.error) trackTitleHint.textContent = track.error;
+            else trackTitleHint.textContent = `❌ ${track.artist} — ${track.title}`;
         }
 
         isAnswered = true;
@@ -156,11 +180,21 @@ import tracks from './tracks.js';
             loadTrack(currentTrackIndex);
         } else {
             audioPlayer.pause();
+            let rang = '';
+            if (score < 50) rang = 'Слушает только "Ласковый май" по ошибке';
+            else if (score > 50 && score <= 100) rang = 'Ну да, слышал разок "Владимирский централ"';
+            else if (score > 100 && score <= 150) rang = 'Знает, что "Таганка" — это не метро';
+            else if (score > 150 && score <= 200) rang = 'Может спеть про малиновые пиджаки, даже не надевая их';
+            else if (score > 200 && score <= 250) rang = 'Авторитет в своём подъезде';
+            else if (score > 250 && score <= 270) rang = 'Почти Бутырка, но с чистой совестью';
+            else if (score > 270) rang = 'Позравляем! Перед вами "Гений шансона"';
+
             optionsList.innerHTML = `
             <div class="text-center py-4">
-                <i class="bi bi-check-circle-fill" style="font-size: 3rem; color: #f5c542;"></i>
+                <i class="bi bi-trophy-fill" style="font-size: 3rem; color: #f5c542;"></i>
                 <h5 class="mt-3">🎉 Квиз завершён!</h5>
-                <p class="hint-text">Набрано очков: <strong>${score}</strong> · Правильных: ${correctCount} · Неправильных: ${wrongCount}</p>
+                <p class="hint-text">Ваш уровень: <strong>${rang}</strong></p>
+                <p class="hint-text">Набрано очков: <strong>${score}</strong></p>
                 <button class="btn btn-glow mt-2" id="restartFromFinishBtn"><i class="bi bi-arrow-repeat me-2"></i>Играть снова</button>
             </div>
             `;
@@ -179,22 +213,40 @@ import tracks from './tracks.js';
         wrongCount = 0;
         isAnswered = false;
 
+        showStartScreen();
+        updateStats();
+    }
+
+    function startGame() {
+        startScreen.style.display = 'none';
+        gameScreen.style.display = 'block';
+        scoreHeader.style.display = 'inline';
+
+        currentTrackIndex = 0;
+        score = 0;
+        correctCount = 0;
+        wrongCount = 0;
+        isAnswered = false;
+
         updateStats();
         loadTrack(0);
         nextTrackBtn.innerHTML = '<i class="bi bi-skip-forward-fill me-2"></i>Следующий трек';
-        trackTitleHint.textContent = 'Прослушайте фрагмент классики';
+        trackTitleHint.textContent = 'Прослушайте фрагмент';
+    }
+
+    function showStartScreen() {
+        startScreen.style.display = 'block';
+        gameScreen.style.display = 'none';
+        scoreHeader.style.display = 'none';
     }
 
     function init() {
         totalTracksSpan.textContent = totalTracks;
-        loadTrack(0);
+        showStartScreen();
+
+        playBtn.addEventListener('click', startGame);
         nextTrackBtn.addEventListener('click', goToNextTrack);
         updateStats();
     }
     init();
-    document.addEventListener('click', function (e) {
-        if (e.target.id === 'restartFromFinishBtn') {
-            restartQuiz();
-        }
-    });
 })();
