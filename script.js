@@ -68,7 +68,7 @@ import tracks from './tracks.js';
         }
     }
 
-    function startTimer() {
+    function startTimer(correctAnswer) {
         clearTimer();
         secondsLeft = 15;
         timerDisplay.textContent = `0:${secondsLeft.toString().padStart(2, '0')}`;
@@ -85,9 +85,9 @@ import tracks from './tracks.js';
                 if (!isAnswered) {
                     const currentTrack = tracks[currentTrackIndex];
                     const allOptions = document.querySelectorAll('.option-btn');
-                    allOptions.forEach((btn, idx) => {
+                    allOptions.forEach((btn) => {
                         btn.classList.add('disabled-btn');
-                        if (idx === currentTrack.correct) {
+                        if (btn.dataset.isCorrect === 'true') {
                             btn.classList.add('correct');
                         }
                     });
@@ -109,7 +109,6 @@ import tracks from './tracks.js';
 
         audioSource.src = track.audio;
         audioPlayer.load();
-        // Автозапуск с небольшой задержкой (чтобы браузер разрешил)
         setTimeout(() => {
             audioPlayer.play().catch(e => console.log('Автовоспроизведение заблокировано'));
         }, 100);
@@ -118,6 +117,8 @@ import tracks from './tracks.js';
         currentTrackNumber.textContent = index + 1;
         totalTracksSpan.textContent = totalTracks;
 
+        const correctAnswer = track.options[track.correct];
+
         const shuffledOptions = shuffleArray([...track.options]);
         optionsList.innerHTML = '';
         shuffledOptions.forEach((opt, idx) => {
@@ -125,13 +126,14 @@ import tracks from './tracks.js';
             btn.className = 'option-btn';
             btn.innerHTML = `<span class="badge bg-secondary bg-opacity-25 me-1">${String.fromCharCode(65 + idx)}</span> ${opt}`;
             btn.dataset.optionText = opt;
+            btn.dataset.isCorrect = (opt === correctAnswer) ? 'true' : 'false';
             btn.addEventListener('click', (e) => handleOptionClick(e, track));
             optionsList.appendChild(btn);
         });
 
         progressBar.style.width = '100%';
         timerDisplay.textContent = '0:15';
-        startTimer();
+        startTimer(correctAnswer);
 
         document.querySelectorAll('.option-btn').forEach(b => {
             b.classList.remove('correct', 'wrong', 'disabled-btn');
