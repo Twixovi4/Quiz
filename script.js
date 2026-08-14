@@ -184,12 +184,12 @@ import tracks from './tracks.js';
             audioPlayer.pause();
             let rang = '';
             if (score < 50) rang = 'Слушает только "Ласковый май" по ошибке';
-            else if (score > 50 && score <= 100) rang = 'Ну да, слышал разок "Владимирский централ"';
-            else if (score > 100 && score <= 150) rang = 'Знает, что "Таганка" — это не метро';
-            else if (score > 150 && score <= 200) rang = 'Может спеть про малиновые пиджаки, даже не надевая их';
-            else if (score > 200 && score <= 250) rang = 'Авторитет в своём подъезде';
-            else if (score > 250 && score <= 270) rang = 'Почти Бутырка, но с чистой совестью';
-            else if (score > 270) rang = 'Позравляем! Перед вами "Гений шансона"';
+            else if (score > 50 && score <= 70) rang = 'Ну да, слышал разок "Владимирский централ"';
+            else if (score > 70 && score <= 100) rang = 'Знает, что "Таганка" — это не метро';
+            else if (score > 100 && score <= 140) rang = 'Может спеть про малиновые пиджаки, даже не надевая их';
+            else if (score > 140 && score <= 160) rang = 'Авторитет в своём подъезде';
+            else if (score > 160 && score <= 180) rang = 'Почти Бутырка, но с чистой совестью';
+            else if (score > 180) rang = 'Позравляем! Перед вами "Гений шансона"';
 
             optionsList.innerHTML = `
             <div class="text-center py-4">
